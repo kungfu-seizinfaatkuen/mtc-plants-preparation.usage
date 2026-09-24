@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Oficina de Fórmulas</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1e3226">
+<style>
+:root{--ink:#14201a;--paper:#f3f2ea;--card:#fff;--line:#d8dbcd;--moss:#1e3226;--saf:#ffb703;--blue:#2f6fde;--green:#1fa35b;--red:#d62839;--muted:#59645d;--box:#f7f7f1}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;padding-bottom:88px}
+button,input,select,textarea{font:inherit;color:inherit}
+.top{background:var(--moss);color:#fff;padding:18px 16px 16px}
+.top h1{margin:0;font-size:1.75rem;font-weight:900;letter-spacing:-.02em;line-height:1.05}
+.top h1 em{font-style:normal;color:var(--saf)}
+.top p{margin:6px 0 0;color:#c9d6c3;font-size:.92rem}
+main{max-width:720px;margin:0 auto;padding:14px 12px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 12px}
+h2.t{font-size:1.2rem;font-weight:900;margin:0 0 10px;padding-left:10px;border-left:6px solid var(--saf);line-height:1.2;letter-spacing:-.01em}
+h3.s{font-size:1rem;font-weight:800;margin:14px 0 6px}
+.just{text-align:justify;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto;word-spacing:normal;letter-spacing:normal;margin:0 0 8px;font-size:.95rem;text-wrap:pretty}
+.box{background:var(--box);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.muted{color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.chip{min-height:40px;border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:6px 12px;font-weight:700;font-size:.88rem;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:#fff}
+.needs{display:grid;gap:6px}
+.need{display:block;text-align:left;width:100%;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;cursor:pointer}
+.need b{display:block;font-size:.98rem}
+.need span{display:block;font-size:.84rem;color:var(--muted)}
+.need[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--saf);outline-offset:2px}
+.btn{min-height:44px;border:0;border-radius:10px;padding:10px 16px;font-weight:800;background:var(--ink);color:#fff;cursor:pointer}
+.btn.sec{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.alert{border:2px solid var(--red);background:#fff4f4;color:#5c0f18;border-radius:10px;padding:10px 12px;font-weight:600;font-size:.94rem}
+.alert p{margin:0 0 6px}
+.info{border:1.5px dashed var(--ink);border-radius:10px;padding:8px 10px;font-size:.9rem;margin:6px 0}
+label.ck{display:flex;gap:10px;align-items:flex-start;padding:8px 2px;font-size:.93rem;cursor:pointer}
+label.ck input{width:22px;height:22px;flex:none;margin-top:1px;accent-color:var(--ink)}
+details.acc{border-top:1px solid var(--line)}
+details.acc>summary{list-style:none;cursor:pointer;padding:12px 2px;font-weight:800;display:flex;gap:10px;align-items:center}
+details.acc>summary::-webkit-details-marker{display:none}
+details.acc>summary::before{content:"+";font-size:1.3rem;line-height:1;width:1.1rem;flex:none}
+details.acc[open]>summary::before{content:"\2212"}
+details.acc>div{padding:0 2px 12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.f{display:grid;gap:3px;font-size:.85rem;font-weight:700}
+.f input,.f select,.f textarea{width:100%;border:1.5px solid var(--line);border-radius:8px;padding:9px 10px;background:#fff;font-weight:400;font-size:.95rem}
+.seg{display:flex;border:1.5px solid var(--ink);border-radius:10px;overflow:hidden}
+.seg button{flex:1;min-height:42px;border:0;background:#fff;font-weight:700;font-size:.82rem;cursor:pointer;border-right:1px solid var(--ink)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--ink);background:#fff;font-weight:900;font-size:1.2rem;cursor:pointer}
+.step b{min-width:2.2em;text-align:center}
+/* linhas da fórmula */
+.row{border:1.5px solid var(--line);border-radius:12px;padding:10px;margin:0 0 10px;background:#fff}
+.rh{display:flex;align-items:center;gap:8px}
+.rh .nm{flex:1;min-width:0}
+.rh .nm b{display:block;line-height:1.15}
+.rh .nm i{display:block;font-size:.8rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.role{border:1.5px solid var(--ink);border-radius:8px;padding:5px 4px;font-size:.8rem;font-weight:800;background:#fff;max-width:118px}
+.ico{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:#fff;font-weight:800;cursor:pointer;flex:none}
+.sl{display:flex;align-items:center;gap:8px;margin-top:8px}
+.pm{width:44px;height:44px;border-radius:12px;border:2px solid var(--ink);background:#fff;font-size:1.4rem;font-weight:900;cursor:pointer;flex:none}
+.pm:disabled{opacity:.3;cursor:not-allowed}
+input.rg{-webkit-appearance:none;appearance:none;flex:1;min-width:0;height:36px;background:transparent;margin:0;--z:var(--blue)}
+input.rg::-webkit-slider-runnable-track{height:14px;border-radius:7px;background:var(--track)}
+input.rg::-moz-range-track{height:14px;border-radius:7px;background:var(--track)}
+input.rg::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:#fff;border:6px solid var(--z);margin-top:-8px;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+input.rg::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:6px solid var(--z);box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.z-blue input.rg{--z:var(--blue)}.z-green input.rg{--z:var(--green)}.z-red input.rg{--z:var(--red)}
+.rs{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 10px;margin-top:2px}
+.val{font-weight:900;font-size:1.15rem}
+.z-blue .val,.z-blue .zone{color:var(--blue)}.z-green .val,.z-green .zone{color:var(--green)}.z-red .val,.z-red .zone{color:var(--red)}
+.zone{font-weight:800;font-size:.85rem}
+.lim{font-size:.8rem;color:var(--muted)}
+.lock{margin-top:8px;border:2px solid var(--red);background:#fff4f4;color:#5c0f18;border-radius:10px;padding:8px 10px;font-weight:700;font-size:.9rem}
+.pill{display:inline-block;border:1px solid var(--ink);border-radius:999px;padding:1px 8px;font-size:.72rem;font-weight:700;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}
+th:first-child,td:first-child{text-align:left}
+th{font-size:.75rem;color:var(--muted);font-weight:700}
+tfoot td{font-weight:900;border-bottom:0}
+.gauge{position:relative;height:14px;border-radius:7px;background:linear-gradient(90deg,#c9ccc3,#e9e9e1 50%,#c9ccc3);margin:22px 4px 6px}
+.gauge i{position:absolute;top:-6px;width:4px;height:26px;background:var(--ink);border-radius:2px;transform:translateX(-2px)}
+.gl{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin:4px 0}
+.tg{border:1px solid var(--line);background:var(--box);border-radius:6px;padding:2px 7px;font-size:.78rem;font-weight:600}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:4px 0}
+.chain span{border:1.5px solid var(--ink);border-radius:8px;padding:3px 8px;font-size:.8rem;font-weight:700;background:#fff}
+.chain span.off{border-color:var(--line);color:#9aa39c;text-decoration:line-through;font-weight:500}
+.chain em{font-style:normal;color:var(--muted)}
+.mini{position:relative;height:8px;border-radius:4px;background:var(--track);margin:6px 0 2px}
+.states{display:flex;align-items:stretch;gap:4px;overflow-x:auto;padding-bottom:4px}
+.states div{flex:1;min-width:96px;border:1.5px solid var(--ink);border-radius:10px;padding:8px 6px;text-align:center;font-size:.8rem;background:#fff}
+.states b{display:block;font-size:.88rem}
+.wbar{height:8px;border-radius:4px;background:var(--line);margin-top:5px;overflow:hidden}
+.wbar i{display:block;height:100%;background:var(--ink)}
+.tabs{position:fixed;left:0;right:0;bottom:0;display:flex;background:#fff;border-top:1.5px solid var(--ink);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+.tabs button{flex:1;min-height:60px;border:0;background:#fff;font-weight:800;font-size:.8rem;cursor:pointer;border-top:4px solid transparent}
+.tabs button[aria-selected=true]{border-top-color:var(--saf);background:var(--moss);color:#fff}
+.toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;font-size:.9rem;z-index:9;max-width:90vw}
+@media (min-width:720px){.grid3{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Oficina de <em>Fórmulas</em></h1>
+  <p>Escolhe a necessidade, ajusta as doses, prepara. Calculadora fitoterápica com limites de segurança.</p>
+</header>
+<main id="app"></main>
+<nav class="tabs" role="tablist" aria-label="Secções">
+  <button role="tab" data-tab="f" aria-selected="true">Fórmula</button>
+  <button role="tab" data-tab="p" aria-selected="false">Preparar</button>
+  <button role="tab" data-tab="l" aria-selected="false">Plantas</button>
+  <button role="tab" data-tab="b" aria-selected="false">Biblioteca</button>
+</nav>
+
+<script>
+'use strict';
+/* ============================== UTILITÁRIOS ============================== */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=n=>String(Math.round(n*100)/100).replace('.',',');
+const toast=m=>{const t=document.createElement('div');t.className='toast';t.setAttribute('role','status');t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2600)};
+
+/* ============================== DADOS ============================== */
+const AREAS=['Movimentação','Nutrição e digestão','Clareza','Defesa','Harmonização'];
+const SRC={V:'EMA (verificada)',F:'Farmacopeia Chinesa (a confirmar)',E:'Referência conservadora (a confirmar)',U:'Definida por ti',N:'Sem dose de referência'};
+const COND={liver:'Doença hepática',biliar:'Cálculos ou obstrução biliar',ulcer:'Úlcera ou refluxo',renalcard:'Insuficiência cardíaca ou renal',auto:'Doença autoimune ou imunossupressão',thyroid:'Doença da tiroide',obstr:'Obstrução ou estenose intestinal'};
+const ALG={asteraceae:'asteráceas (camomila, arnica)',apiaceae:'apiáceas (funcho, anis)',lamiaceae:'lamiáceas (tomilho, hortelã)',salicylate:'salicilatos ou AINEs'};
+const MED={anticoag:'Anticoagulantes ou antiagregantes',aine:'AINEs ou aspirina',antidep:'Antidepressivos',contra:'Contracetivos orais',imuno:'Imunossupressores',sed:'Sedativos, ansiolíticos ou hipnóticos',antidiab:'Antidiabéticos',cardio:'Medicação cardíaca ou anti-hipertensora',diur:'Diuréticos',tirmed:'Medicação da tiroide',outros:'Outra medicação crónica'};
+const ALARMS=['Dor forte ou súbita','Febre alta (a partir de 38,5 °C) ou com mais de 3 dias','Sangue nas fezes, na urina ou na expetoração','Dor no peito, falta de ar ou palpitações fortes','Deformação visível, inchaço súbito ou articulação quente e vermelha','Perda de peso sem explicação','Sintomas há mais de 2 semanas','Confusão, desmaio ou fraqueza súbita','Pensamentos de me magoar'];
+const FL={'辛':'acre','甘':'doce','酸':'ácido','苦':'amargo','咸':'salgado','淡':'insípido'};
+const NAT={'寒':[-2,'frio'],'凉':[-1,'fresco'],'微寒':[-1,'ligeiramente frio'],'平':[0,'neutro'],'微温':[1,'ligeiramente morno'],'温':[1,'morno'],'热':[2,'quente']};
+const MODE={pre:['先煎 xiān jiān','cozer primeiro (partes duras)'],co:['同煎 tóng jiān','cozer juntas'],post:['后下 hòu xià','juntar no fim (aromáticas)'],bag:['包煎 bāo jiān','em saquinho de pano (sementes miúdas)']};
+const ROLES={C:'君 Chefe',M:'臣 Ministro',A:'佐 Assistente',G:'使 Guia'};
+const PZ={crush:'打碎 dǎ suì: partir ou esmagar antes',roast:'炒 chǎo: torrar levemente e partir',slit:'劈开 pī kāi: abrir ao meio'};
+const LT={xx:'相须 xiāng xū: reforço mútuo',xs:'相使 xiāng shǐ: assistência',xw:'相畏 xiāng wèi: contenção',xk:'相杀 xiāng shā: neutralização',xe:'相恶 xiāng wù: enfraquecimento (evitar)',xf:'相反 xiāng fǎn: incompatível (evitar)',syn:'Sinergia tradicional',ct:'Cautela (interação)'};
+
+const PL=[];
+function P(id,n,l,tr,pt,ar,d,src,mode,f,o){PL.push(Object.assign({id,n,l,tr,pt,ar,d,src,mode,f},o||{}))}
+/* id, nome, latim, tradição, partes, áreas, [mín,típ,máx g/dia de erva seca], fonte, modo de decocção, formas (i=infusão d=decocção p=pó m=PMC) */
+P('urtiga','Urtiga','Urtica dioica','PT',['folha'],[0],[2,6,12],'E','post','ipm',{cx:['renalcard'],ixw:['diur'],tg:['diur'],ct:'Edemas por insuficiência cardíaca ou renal.',it:'Cautela com diuréticos.',why:'Máx. 12 g/dia = 4 chávenas de 3 g. Mín. 2 g é uma dose de teste. Se a dor persistir mais de 2 semanas, consultar.'});
+P('salgueiro','Salgueiro-branco','Salix alba','PT',['casca'],[0],[3,6,12],'V','pre','dpm',{cx:['preg','lact','ulcer'],al:['salicylate'],ixb:['anticoag','aine'],tg:['antiplat'],ct:'Alergia a salicilatos, úlcera gástrica, menores de 18 anos, gravidez e lactação.',it:'Anticoagulantes e anti-inflamatórios não esteroides.',why:'EMA: infusão de 1 a 3 g em 150 ml, 3 a 4 vezes por dia, o que dá o máximo de 12 g/dia. Contém salicilatos.'});
+P('gengibre','Gengibre','Zingiber officinale','Out',['rizoma'],[0,1],[1,2,4],'E','co','idpm',{cw:['preg','biliar'],ixw:['anticoag'],tg:['antiplat'],psi:1,tcm:{n:'微温',s:['辛'],m:['Pulmão','Baço','Estômago']},ct:'Cálculos biliares (cautela). Gravidez só com aconselhamento.',it:'Anticoagulantes e antiagregantes (efeito teórico com doses altas).',why:'Faixa prática de 1 a 4 g/dia de rizoma seco. Acima disso aumentam a irritação gástrica e o efeito antiagregante.'});
+P('curcuma','Cúrcuma','Curcuma longa','Out',['rizoma'],[0],[1,3,6],'E','co','dpm',{cx:['biliar'],ixw:['anticoag'],tg:['antiplat'],psi:1,tcm:{n:'温',s:['辛','苦'],m:['Baço','Fígado']},ct:'Obstrução biliar, cálculos biliares.',it:'Anticoagulantes e antiagregantes.',why:'Só rizoma inteiro, 1 a 6 g/dia. Extratos concentrados associaram-se a lesão hepática, por isso não são calculados aqui.'});
+P('camomila','Camomila','Matricaria recutita','PT',['flor'],[1],[2,6,12],'E','post','ip',{al:['asteraceae'],ixw:['anticoag'],ct:'Alergia a asteráceas.',it:'Cautela com anticoagulantes (dados limitados).',why:'Cerca de 3 g por chávena, até 4 chávenas por dia. Aromática: não fazer PMC, perde os óleos voláteis.'});
+P('funcho','Funcho','Foeniculum vulgare','PT',['semente'],[1],[1,3,6],'E','co','ip',{seed:1,al:['apiaceae'],cx:['preg','lact'],psi:1,tcm:{n:'温',s:['辛'],m:['Fígado','Rim','Baço','Estômago']},pz:'crush',ct:'Alergia a apiáceas. Gravidez, lactação e crianças pequenas.',it:'Não documentadas.',why:'Limite baixo por precaução (contém estragole). Esmagar a semente antes.'});
+P('chenpi','Chen pi (casca de tangerina)','Citrus reticulata','Out',['casca'],[1],[3,6,10],'F','co','idpm',{psi:1,tcm:{n:'温',s:['苦','辛'],m:['Pulmão','Baço']},ct:'Não documentadas.',it:'Não documentadas.',why:'Farmacopeia Chinesa: 3 a 10 g/dia. A casca envelhecida é a mais valorizada.'});
+P('dente','Dente-de-leão','Taraxacum officinale','PT',['raiz','folha'],[1],[2,6,10],'E','co','idpm',{cx:['biliar','obstr'],cw:['ulcer'],al:['asteraceae'],ixw:['diur'],tg:['diur'],tcm:{n:'寒',s:['苦','甘'],m:['Fígado','Estômago']},ct:'Obstrução biliar ou intestinal, alergia a asteráceas. Cautela na úlcera gástrica.',it:'Cautela com diuréticos.',why:'Referência conservadora. Diurético suave: não somar com outras plantas diuréticas.'});
+P('alcachofra','Alcachofra','Cynara scolymus','PT',['folha'],[1],[2,6,9],'E','co','idpm',{cx:['biliar'],al:['asteraceae'],ct:'Obstrução biliar, alergia a asteráceas.',it:'Não documentadas.',why:'Referência conservadora para a folha seca em infusão.'});
+P('boldo','Boldo','Peumus boldus','Out',['folha'],[1],[1,3,6],'E','post','ip',{cx:['preg','lact','liver','biliar'],ct:'Obstrução biliar, doença hepática grave, gravidez, lactação, menores de 18 anos.',it:'Não documentadas.',why:'Limite baixo por precaução (alcaloides) e uso curto. É digestivo, não protetor do fígado.'});
+P('schisandra','Schisandra (wu wei zi)','Schisandra chinensis','Out',['fruto'],[1],[2,3,6],'F','co','dpm',{cx:['preg','ulcer'],ixb:['imuno'],pz:'crush',tcm:{n:'温',s:['酸','甘'],m:['Pulmão','Coração','Rim']},ct:'Gravidez, refluxo ou úlcera com excesso de acidez.',it:'Medicamentos metabolizados pelo CYP3A4 (por exemplo, tacrolimus).',why:'Farmacopeia Chinesa: 2 a 6 g/dia.'});
+P('valeriana','Valeriana','Valeriana officinalis','PT',['raiz'],[2],[1,3,9],'V','co','idp',{cx:['preg','lact'],ixw:['sed'],tg:['sed'],ct:'Menores de 12 anos. Gravidez e lactação (dados insuficientes).',it:'Cautela com sedativos e álcool.',why:'EMA: 0,3 a 3 g por toma em infusão, até 3 tomas: máx. 9 g/dia. O efeito é gradual (2 a 4 semanas). Se persistir depois de 2 semanas, consultar.'});
+P('cidreira','Erva-cidreira','Melissa officinalis','PT',['folha'],[2],[1.5,4.5,9],'E','post','ip',{cx:['preg','lact'],ixw:['sed'],tg:['sed'],ct:'Menores de 12 anos. Gravidez e lactação (dados insuficientes).',it:'Cautela com sedativos.',why:'Referência conservadora (1,5 a 3 g por chávena). Efeito calmante leve.'});
+P('tilia','Tília','Tilia cordata','PT',['flor'],[2],[2,6,10],'E','post','ip',{ct:'Alergia a tília.',it:'Não documentadas.',why:'Referência conservadora para a flor seca.'});
+P('ashwa','Ashwagandha','Withania somnifera','Out',['raiz'],[2,4],[1,3,6],'E','co','dpm',{cx:['preg','thyroid','auto','liver'],ixb:['imuno','tirmed'],ixw:['sed','antidiab'],tg:['sed'],ct:'Gravidez, hipertiroidismo, doenças autoimunes. Relatos raros de lesão hepática.',it:'Sedativos, imunossupressores, medicação da tiroide, antidiabéticos.',why:'Sem monografia EMA. Faixa tradicional (ayurvédica) de 1 a 6 g/dia de raiz em pó. Uso em ciclos curtos, com pausas.'});
+P('suan','Suan zao ren','Ziziphus jujuba var. spinosa','Out',['semente'],[2],[6,10,15],'F','co','dpm',{seed:1,cx:['preg'],ixw:['sed'],tg:['sed'],pz:'crush',tcm:{n:'平',s:['甘','酸'],m:['Coração','Fígado','Vesícula biliar']},ct:'Gravidez (evitar por precaução).',it:'Cautela com sedativos.',why:'Farmacopeia Chinesa: 10 a 15 g/dia. O mínimo de 6 g é uma dose prudente de início.'});
+P('passiflora','Passiflora','Passiflora incarnata','Out',['parte aérea'],[2],[1,4,8],'V','post','ip',{cx:['preg','lact'],ixw:['sed'],tg:['sed'],ct:'Menores de 12 anos. Gravidez e lactação.',it:'Cautela com sedativos.',why:'EMA: 1 a 2 g por chávena, até 4 vezes por dia: máx. 8 g/dia. Se persistir mais de 2 semanas, consultar.'});
+P('tomilho','Tomilho','Thymus vulgaris e T. zygis','PT',['sumidade florida'],[3],[1,4,8],'E','post','ip',{al:['lamiaceae'],ct:'Alergia a lamiáceas. Crianças pequenas.',it:'Não documentadas.',why:'Referência conservadora (1 a 2 g por chávena, até 4 vezes).'});
+P('malva','Malva','Malva sylvestris','PT',['flor','folha'],[3],[2,5,10],'E','post','ip',{tg:['muc'],ct:'Alergia a malváceas.',it:'Atrasa a absorção de outros medicamentos: tomar com 1 hora de intervalo.',why:'Referência conservadora. Mucilaginosa: infusão morna ou fria, sem PMC.'});
+P('eucalipto','Eucalipto','Eucalyptus globulus','PT',['folha'],[3],[1.5,4.5,9],'E','post','ip',{ct:'Alergia, crianças pequenas. Nunca o óleo essencial por via oral.',it:'Não documentadas na monografia.',why:'Referência conservadora. Espécie introduzida e naturalizada em Portugal.'});
+P('astragalo','Astrágalo (huang qi)','Astragalus membranaceus','Out',['raiz'],[3],[9,15,30],'F','co','dpm',{cx:['auto'],ixb:['imuno'],tcm:{n:'微温',s:['甘'],m:['Pulmão','Baço']},ct:'Doenças autoimunes.',it:'Imunossupressores (pode contrariar o seu efeito).',why:'Farmacopeia Chinesa: 9 a 30 g/dia. Tónico: não trata uma constipação já instalada.'});
+P('espinheiro','Espinheiro-branco','Crataegus monogyna','PT',['folha com flor'],[4],[2,4,6],'V','post','ip',{cx:['preg','lact'],ixb:['cardio'],ct:'Menores de 12 anos. Gravidez e lactação. Só depois de o médico excluir doença cardíaca.',it:'Digoxina, anti-hipertensores, betabloqueantes.',why:'EMA: 1 a 2 g por chávena, 3 a 4 vezes por dia: máx. 6 g/dia.'});
+P('hiperico','Hipericão','Hypericum perforatum','PT',['sumidade florida'],[4],[3,4.5,6],'V','post','ip',{cx:['preg','lact'],ixb:['antidep','contra','anticoag','imuno','cardio','outros'],ct:'Fotossensibilidade, gravidez, lactação, menores de 18 anos.',it:'Contracetivos orais, antidepressivos, anticoagulantes, imunossupressores, antirretrovirais, digoxina.',why:'EMA (revisão em rascunho): chá de 1,5 a 2 g, 2 a 3 vezes por dia, ou seja 3 a 6 g/dia. Interage com muitos medicamentos.'});
+P('reishi','Reishi (ling zhi)','Ganoderma lucidum','Out',['corpo frutífero'],[4],[6,9,12],'F','pre','dpm',{ixw:['anticoag','cardio','imuno'],tg:['antiplat'],tcm:{n:'平',s:['甘'],m:['Coração','Pulmão','Fígado','Rim']},ct:'Alergia a fungos.',it:'Anticoagulantes, anti-hipertensores, imunossupressores (efeito teórico).',why:'Farmacopeia Chinesa: 6 a 12 g/dia. É um fungo, não uma planta. Cozer longamente.'});
+P('linhaca','Linhaça','Linum usitatissimum','Out',['semente'],[1],[5,10,20],'E','none','p',{seed:1,oil:1,muc:1,cx:['obstr'],tg:['muc'],psi:1,ct:'Obstrução ou estenose intestinal.',it:'Tomar 1 hora afastada de outros medicamentos.',why:'Beber pelo menos 250 ml de água por toma. Máx. 20 g/dia por precaução. Oleaginosa: moer na hora.'});
+P('ispagula','Ispágula','Plantago ovata','Out',['semente'],[1],[3,7,10],'E','none','p',{seed:1,muc:1,cx:['obstr'],tg:['muc'],ct:'Obstrução ou estenose intestinal. Beber sempre muita água.',it:'Tomar 1 hora afastada de outros medicamentos.',why:'3 a 10 g/dia, sempre com muita água e nunca seca. Forma um gel: não fazer PMC.'});
+P('sesamo','Sésamo preto (hei zhi ma)','Sesamum indicum','Out',['semente'],[1],[9,12,15],'F','none','p',{seed:1,oil:1,psi:1,pz:'roast',tcm:{n:'平',s:['甘'],m:['Fígado','Rim','Intestino grosso']},ct:'Alergia a sésamo.',it:'Não documentadas.',why:'Farmacopeia Chinesa: 9 a 15 g/dia. Torrar levemente e moer na hora: a gordura oxida-se depressa.'});
+P('coix','Coix (yi yi ren)','Coix lacryma-jobi','Out',['semente'],[0,1],[9,15,30],'F','co','dpm',{seed:1,cx:['preg'],psi:1,tcm:{n:'微寒',s:['甘','淡'],m:['Baço','Estômago','Pulmão']},ct:'Gravidez (a MTC evita).',it:'Não documentadas.',why:'Farmacopeia Chinesa: 9 a 30 g/dia. Alimento-medicamento de baixo risco.'});
+P('rabanete','Rabanete (lai fu zi)','Raphanus sativus','Out',['semente'],[1],[5,8,12],'F','co','dpm',{seed:1,pz:'roast',psi:1,tcm:{n:'平',s:['辛','甘'],m:['Pulmão','Baço','Estômago']},ct:'A MTC evita-o na fraqueza de Qi.',it:'Não documentadas.',why:'Farmacopeia Chinesa: 5 a 12 g/dia. Torrada, para digestão de comidas pesadas.'});
+P('goji','Goji (gou qi zi)','Lycium barbarum','Out',['fruto'],[3,4],[6,9,12],'F','co','dpm',{cw:['preg'],ixw:['anticoag'],psi:1,tcm:{n:'平',s:['甘'],m:['Fígado','Rim']},ct:'Gravidez (por precaução).',it:'Anticoagulantes (relatos com varfarina).',why:'Farmacopeia Chinesa: 6 a 12 g/dia.'});
+P('jujuba','Jujuba (da zao)','Ziziphus jujuba','Out',['fruto'],[0,2,3,4],[6,10,15],'F','co','dpm',{ixw:['antidiab'],pz:'slit',psi:1,tcm:{n:'温',s:['甘'],m:['Baço','Estômago','Coração']},ct:'Cautela em diabetes (açúcar).',it:'Antidiabéticos.',why:'Farmacopeia Chinesa: 6 a 15 g/dia. Assistente clássico: suaviza e harmoniza a fórmula.'});
+P('hortela','Hortelã-pimenta','Mentha × piperita','PT',['folha'],[1,3],[1.5,4.5,9],'E','post','ip',{cx:['biliar'],cw:['ulcer'],al:['lamiaceae'],psi:1,tcm:{n:'凉',s:['辛'],m:['Pulmão','Fígado']},ct:'Obstrução biliar, refluxo, alergia a lamiáceas.',it:'Não documentadas.',why:'Referência conservadora. Aromática: juntar no fim (后下).'});
+P('anis','Anis','Pimpinella anisum','PT',['semente'],[1,3],[1,3,6],'E','co','ip',{seed:1,al:['apiaceae'],cx:['preg','lact'],psi:1,pz:'crush',ct:'Alergia a apiáceas. Gravidez e lactação (dados insuficientes).',it:'Não documentadas.',why:'Referência conservadora. Esmagar a semente antes.'});
+P('plantago','Plântago (che qian zi)','Plantago spp.','PT',['semente'],[1],[9,12,15],'F','bag','dpm',{seed:1,cx:['preg'],tcm:{n:'寒',s:['甘'],m:['Fígado','Rim','Pulmão','Intestino delgado']},ct:'Gravidez (a MTC evita).',it:'Não documentadas.',why:'Farmacopeia Chinesa: 9 a 15 g/dia. Sementes miúdas e viscosas: cozer em saquinho de pano.'});
+/* sem dose de referência: só na biblioteca */
+const ND='Sem dose de referência segura para uso caseiro: usar produto padronizado com monografia.';
+P('freixo','Freixo','Fraxinus excelsior','PT',['folha'],[0],null,'N',null,'i',{ct:'Não documentadas.',it:'Não documentadas.',why:'Uso tradicional contra o reumatismo. Estatuto EMA por confirmar; sem dose de referência.'});
+P('poejo','Poejo','Mentha pulegium','PT',['sumidade florida'],[1],null,'N',null,'i',{ct:'Gravidez (evitar, risco de aborto), lactação, doença hepática, crianças.',it:'Dados insuficientes.',why:'Contém pulegona, tóxica para o fígado. Não calculado por segurança.'});
+P('cardamomo','Cardamomo','Elettaria cardamomum','Out',['semente'],[1],null,'N',null,'ip',{seed:1,psi:1,ct:'Cálculos biliares (cautela).',it:'Não documentadas.',why:'Uso tradicional e culinário. Sem dose de referência.'});
+P('cardo','Cardo-mariano','Silybum marianum','PT',['semente'],[1],null,'N',null,'p',{seed:1,oil:1,ct:'Alergia a asteráceas. Gravidez e lactação.',it:'Possível interferência com fármacos metabolizados no fígado.',why:ND});
+P('harpago','Harpagófito','Harpagophytum procumbens','Out',['raiz'],[0],null,'N',null,'d',{ct:'Úlcera gastroduodenal, gravidez, lactação, menores de 18 anos.',it:'Anticoagulantes (relatos isolados).',why:ND});
+P('boswellia','Boswellia','Boswellia serrata','Out',['resina'],[0],null,'N',null,'m',{ct:'Dados insuficientes.',it:'Dados insuficientes.',why:ND});
+P('equinacea','Equinácea','Echinacea purpurea','Out',['parte aérea'],[3],null,'N',null,'m',{ct:'Alergia a asteráceas, doenças autoimunes, imunossupressão.',it:'Imunossupressores.',why:ND});
+P('tulsi','Tulsi','Ocimum tenuiflorum','Out',['folha'],[3],null,'N',null,'i',{ct:'Gravidez e tentativa de engravidar.',it:'Antidiabéticos e anticoagulantes (dados limitados).',why:'Uso tradicional, sem dose de referência.'});
+P('rosmaninho','Rosmaninho','Lavandula stoechas','PT',['flor'],[4],null,'N',null,'i',{ct:'Alergia a lamiáceas.',it:'Cautela com sedativos.',why:'A monografia EMA é da lavanda (L. angustifolia), não desta espécie.'});
+P('rodiola','Rodíola','Rhodiola rosea','Out',['raiz'],[4],null,'N',null,'m',{ct:'Menores de 18 anos, gravidez e lactação.',it:'Cautela com antidepressivos.',why:ND});
+P('arnica','Arnica','Arnica montana','PT',['flor'],[0],null,'N',null,'',{ct:'Pele lesionada, alergia a asteráceas. Nunca por via oral.',it:'Não documentadas (uso externo).',why:'Só uso externo. Colheita regulada em Portugal.'});
+P('alecrim','Alecrim','Rosmarinus officinalis','PT',['folha'],[0],null,'N',null,'',{ct:'Pele lesionada, febre, problemas circulatórios graves (banhos).',it:'Não documentadas.',why:'Uso externo (óleo infundido, banho).'});
+P('capsaicina','Pimenta-de-caiena','Capsicum spp.','Out',['fruto'],[0],null,'N',null,'',{ct:'Pele lesionada, olhos e mucosas, menores de 12 anos.',it:'Não documentadas.',why:'Só produtos comerciais padronizados, uso externo.'});
+
+const NEEDS=[
+ {id:'artic',ar:0,n:'Dor articular ligeira',s:'Sem inchaço nem calor local',f:[['urtiga','C',6],['salgueiro','M',4.5],['gengibre','A',1.5],['jujuba','G',6]],why:'A urtiga é a base (EMA, dor articular ligeira). O salgueiro reforça o alívio, o gengibre aquece e dispersa, e a jujuba suaviza o estômago. Sem salgueiro, a fórmula continua válida.'},
+ {id:'gases',ar:1,n:'Desconforto digestivo e gases',s:'Peso, inchaço, digestão lenta',f:[['funcho','C',3],['camomila','M',6],['chenpi','A',4.5],['gengibre','G',1.5]],why:'O funcho e a camomila são a base europeia. A casca de tangerina regula o Qi do estômago e o gengibre leva a fórmula ao centro, como na tradição chinesa.'},
+ {id:'enjoo',ar:1,n:'Enjoo e digestão lenta',s:'Náuseas ligeiras, estômago pesado',f:[['gengibre','C',2],['chenpi','M',6],['hortela','A',3],['jujuba','G',6]],why:'O gengibre é a planta com monografia para náuseas. A tangerina e a hortelã acalmam o estômago e a jujuba harmoniza.'},
+ {id:'obst',ar:1,n:'Prisão de ventre ligeira',s:'Sementes que amaciam o intestino',f:[['linhaca','C',10],['sesamo','M',12],['ispagula','A',5]],why:'Sementes mucilaginosas e oleaginosas: a linhaça e a ispágula dão volume e o sésamo humedece o intestino (润肠). Só funcionam com muita água.'},
+ {id:'gordura',ar:1,n:'Digestão de refeições gordas',s:'Apoio digestivo e biliar',f:[['alcachofra','C',6],['dente','M',6],['boldo','A',3]],why:'A alcachofra e o dente-de-leão estimulam a bílis e o apetite. O boldo é só digestivo. Bloqueada com problemas biliares.'},
+ {id:'tensao',ar:2,n:'Tensão nervosa ligeira',s:'Inquietação, stress do dia a dia',f:[['cidreira','C',4.5],['passiflora','M',4],['tilia','A',6],['jujuba','G',6]],why:'Erva-cidreira e passiflora têm monografia para stress ligeiro. A tília suaviza e a jujuba, doce e calmante, fecha a fórmula.'},
+ {id:'sono',ar:2,n:'Dificuldade em adormecer',s:'Ligeira e recente',f:[['suan','C',10],['valeriana','M',1.5],['passiflora','A',2]],why:'A semente de jujuba (酸枣仁) é a base clássica chinesa para o sono. A valeriana e a passiflora somam-se em doses baixas: o efeito sedativo acumula-se.'},
+ {id:'garganta',ar:3,n:'Garganta irritada e tosse seca',s:'Sem febre alta',f:[['malva','C',5],['tomilho','M',3],['hortela','A',1.5],['jujuba','G',6]],why:'A malva acalma a mucosa com as suas mucilagens, o tomilho ajuda a limpar e a hortelã refresca. A jujuba adoça e suaviza.'},
+ {id:'consti',ar:3,n:'Início de constipação',s:'Primeiros dias, sem febre alta',f:[['tomilho','C',4],['gengibre','M',2],['hortela','A',3],['eucalipto','G',3]],why:'O tomilho tem monografia para a tosse da constipação. O gengibre aquece, a hortelã e o eucalipto abrem as vias respiratórias.'},
+ {id:'defesas',ar:3,n:'Cansaço e defesas em baixo',s:'Prevenção, fora de doença aguda',f:[['astragalo','C',15],['goji','M',9],['jujuba','A',10],['chenpi','G',4.5]],why:'O astrágalo é o tónico chinês de base para o Qi do Pulmão e do Baço. O goji e a jujuba nutrem e a casca de tangerina regula o Qi para o tónico não estagnar.'},
+ {id:'stress',ar:4,n:'Stress e cansaço temporários',s:'Fadiga por sobrecarga',f:[['ashwa','C',3],['goji','M',9],['reishi','A',9],['jujuba','G',6]],why:'A ashwagandha é a base adaptogénica. O goji nutre, o reishi acalma o Shen e a jujuba harmoniza. Várias entradas têm bloqueios: confirma o teu perfil.'}
+];
+const LINKS0=[
+ {a:'gengibre',b:'jujuba',t:'xs',n:'生姜+大枣: par clássico que protege o estômago e harmoniza a fórmula.'},
+ {a:'gengibre',b:'chenpi',t:'xs',n:'Como na 二陈汤: regulam o Qi do estômago.'},
+ {a:'astragalo',b:'chenpi',t:'xs',n:'Princípio clássico: o regulador do Qi evita a estagnação causada pelos tónicos.'},
+ {a:'suan',b:'schisandra',t:'syn',n:'Uso conjunto tradicional para acalmar o Coração e o Shen.'},
+ {a:'camomila',b:'funcho',t:'syn',n:'Combinação europeia clássica para a digestão.'},
+ {a:'valeriana',b:'cidreira',t:'syn',n:'Combinação europeia clássica para tensão e sono.'},
+ {a:'tomilho',b:'malva',t:'syn',n:'Combinação europeia para a tosse.'},
+ {a:'valeriana',b:'passiflora',t:'ct',n:'Soma de efeito sedativo: reduzir as doses.'}
+];
+
+/* recipientes por fase */
+const VESSELS=[
+ ['Guardar ervas e sementes secas','Boiões de vidro âmbar ou latas herméticas, dentro de um armário de madeira com gavetas (百子柜 bǎi zǐ guì), gavetas forradas a papel','A madeira deixa respirar o armário, não o boião. Etiquetar planta, parte, data e origem.'],
+ ['Molho e 1.ª decocção','Panela de barro vidrada (砂锅 shā guō), ou cerâmica, esmalte, vidro borosilicato ou inox 304, com tampa','Evitar ferro, cobre e alumínio: reagem com taninos. Mexer com colher de madeira.'],
+ ['Coar','Coador de inox fino e pano de algodão ou musselina, sobre jarro de vidro','Espremer o bagaço no pano. A 2.ª decocção junta-se à 1.ª.'],
+ ['Líquido em espera','Jarro de vidro com tampa, no frio, no máximo 24 a 48 horas','Não guardar o chá cozido à temperatura ambiente.'],
+ ['Concentrar (até à pasta)','Tacho largo de inox ou panela de barro, e no fim banho-maria em bacia de inox','A superfície larga evapora mais depressa. O banho-maria evita queimar a pasta.'],
+ ['Pasta (extrato mole)','Boião de vidro âmbar, no frio, no máximo 2 semanas','Ainda tem 20 a 30% de água: estraga-se.'],
+ ['Secar','Tabuleiro de inox ou silicone com papel vegetal, em desidratador a 45 a 55 °C','Camada de 2 a 3 mm. Nunca secar extrato húmido sobre madeira: absorve-o.'],
+ ['Secar ervas e sementes ao ar','Tabuleiro ou grelha de madeira sem verniz, à sombra, com boa ventilação','Só para material cru.'],
+ ['Moer e peneirar','Moinho de café de lâminas em inox, almofariz de porcelana ou granito, e almofariz de madeira (木臼 mù jiù) para sementes aromáticas e oleaginosas; peneira de inox','Limpar entre plantas. Moer oleaginosas na hora.'],
+ ['Guardar o pó e o PMC','Frasco de vidro âmbar de 30 a 120 ml, tampa hermética, com saqueta de sílica alimentar','O PMC absorve humidade e empedra. Etiquetar com data, lote e razão.'],
+ ['Xarope e tintura','Garrafa de vidro âmbar com rolha ou conta-gotas','Tinturas: rotular o teor de álcool.'],
+ ['Comprimidos e pílulas','Frasco de vidro âmbar com sílica, ou caixa de madeira forrada para as pílulas de mel','As pílulas de mel duram menos que os comprimidos.']
+];
+
+/* ============================== ESTADO ============================== */
+const state={tab:'f',area:0,need:null,ok:false,form:'inf',tomas:3,dias:7,ratio:5,tabW:0.5,frac:70,rows:[],msg:'',
+ prof:{age:'adulto',frail:false,preg:false,lact:false,cond:[],al:[],med:[],tend:'neutro'},alarm:[],
+ lib:{q:'',area:-1,part:''},prep:{herb:null,yield:20},custom:[],ov:{},links:LINKS0.map(x=>Object.assign({},x)),notes:{}};
+
+const getP=id=>{const b=PL.find(p=>p.id===id)||state.custom.find(p=>p.id===id);if(!b)return null;const o=state.ov[id];return o?Object.assign({},b,{d:o.d,why:o.why,src:'U',fonte:o.fonte}):b};
+const allP=()=>PL.concat(state.custom).map(p=>getP(p.id));
+const capOf=p=>Math.round(p.d[2]*(state.prof.frail?0.75:1)*100)/100;
+const stepOf=p=>p.d[2]<=3?0.1:0.5;
+const has=(p,c)=>(p.f||'').includes(c);
+function blocks(p){
+  const r=[],pr=state.prof;
+  if(!p.d) return ['sem dose de referência'];
+  const cx=p.cx||[];
+  if(cx.includes('preg')&&pr.preg) r.push('gravidez');
+  if(cx.includes('lact')&&pr.lact) r.push('lactação');
+  cx.forEach(c=>{if(COND[c]&&pr.cond.includes(c)) r.push(COND[c].toLowerCase())});
+  (p.al||[]).forEach(a=>{if(pr.al.includes(a)) r.push('alergia a '+ALG[a])});
+  (p.ixb||[]).forEach(m=>{if(pr.med.includes(m)) r.push('interação com '+MED[m].toLowerCase())});
+  return r;
+}
+function warns(p){
+  const r=[],pr=state.prof;
+  (p.cw||[]).forEach(c=>{if(c==='preg'&&pr.preg) r.push('gravidez: só com aconselhamento');else if(c==='lact'&&pr.lact) r.push('lactação');else if(COND[c]&&pr.cond.includes(c)) r.push(COND[c].toLowerCase()+': cautela')});
+  (p.ixw||[]).forEach(m=>{if(pr.med.includes(m)) r.push('cautela com '+MED[m].toLowerCase())});
+  return r;
+}
+const zoneOf=(p,d)=>{const c=capOf(p);return d>=c-1e-9?'red':(d>=p.d[0]-1e-9?'green':'blue')};
+const zoneTxt={blue:'abaixo do mínimo (neutro)',green:'faixa eficaz e equilibrada',red:'máximo atingido: não aumentar'};
+const trackOf=p=>{const c=capOf(p),a=Math.min(100,p.d[0]/c*100);return `linear-gradient(90deg,var(--blue) 0 ${a}%,var(--green) ${a}% 96%,var(--red) 96% 100%)`};
+const activeRows=()=>state.rows.filter(r=>{const p=getP(r.id);return p&&p.d&&!blocks(p).length&&r.dose>0});
+const alarmOn=()=>state.alarm.length>0||state.prof.age!=='adulto';
+
+function loadNeed(id){
+  const n=NEEDS.find(x=>x.id===id);state.need=id;state.rows=[];const cut=[];
+  n.f.forEach(([pid,role,dose])=>{const p=getP(pid);const b=blocks(p);if(b.length){cut.push(p.n+' ('+b.join(', ')+')');return}
+    const c=capOf(p);state.rows.push({id:pid,role,dose:Math.min(Math.max(dose,p.d[0]),c)})});
+  state.msg=cut.length?'Retiradas por segurança: '+cut.join('; ')+'.':'';
+}
+
+/* ============================== FÓRMULA ============================== */
+function safetyCard(){
+  const pr=state.prof,mk=(name,obj,val)=>`<label class="ck"><input type="checkbox" data-i="${name}" data-v="${val}" ${obj.includes(val)?'checked':''}><span>${esc(({cond:COND,al:ALG,med:MED,alarm:null})[name]?({cond:COND,al:ALG,med:MED})[name][val]:val)}</span></label>`;
+  return `<section class="card"><h2 class="t">2 · Segurança e perfil</h2>
+  <details class="acc" ${state.alarm.length?'open':''}><summary>Sinais de alarme ${state.alarm.length?'('+state.alarm.length+')':''}</summary><div>
+   <p class="just">Se algum destes sinais existir, a ferramenta não calcula: procura um médico.</p>
+   ${ALARMS.map((a,i)=>`<label class="ck"><input type="checkbox" data-i="alarm" data-v="${i}" ${state.alarm.includes(String(i))?'checked':''}><span>${esc(a)}</span></label>`).join('')}
+  </div></details>
+  <details class="acc"><summary>Pessoa</summary><div>
+   <div class="grid2"><label class="f">Idade<select data-i="age"><option value="adulto" ${pr.age==='adulto'?'selected':''}>Adulto (18 ou mais)</option><option value="menor" ${pr.age!=='adulto'?'selected':''}>Menor de 18</option></select></label>
+   <label class="f">Tendência (MTC)<select data-i="tend"><option value="frio" ${pr.tend==='frio'?'selected':''}>Frio (tende a arrefecer)</option><option value="neutro" ${pr.tend==='neutro'?'selected':''}>Neutro</option><option value="calor" ${pr.tend==='calor'?'selected':''}>Calor (tende a aquecer)</option></select></label></div>
+   <label class="ck"><input type="checkbox" data-i="frail" ${pr.frail?'checked':''}><span>Idosa(o), menos de 50 kg ou primeira vez: máximos reduzidos a 75%</span></label>
+   <label class="ck"><input type="checkbox" data-i="preg" ${pr.preg?'checked':''}><span>Grávida</span></label>
+   <label class="ck"><input type="checkbox" data-i="lact" ${pr.lact?'checked':''}><span>A amamentar</span></label>
+  </div></details>
+  <details class="acc"><summary>Condições e alergias</summary><div>
+   ${Object.keys(COND).map(k=>mk('cond',pr.cond,k)).join('')}
+   ${Object.keys(ALG).map(k=>mk('al',pr.al,k)).join('')}
+  </div></details>
+  <details class="acc"><summary>Medicação que tomo</summary><div>
+   ${Object.keys(MED).map(k=>mk('med',pr.med,k)).join('')}
+  </div></details>
+  ${alarmOn()?`<div class="alert" style="margin-top:10px"><p>${state.prof.age!=='adulto'?'Esta ferramenta calcula doses para adultos. Fala com um profissional de saúde.':'Há sinais de alarme assinalados. Não uses plantas para isto sem falar com um médico. Em urgência, liga 112 ou SNS 24 (808 24 24 24).'}</p></div>`
+   :`<div style="margin-top:10px"><button class="btn" data-a="ok">${state.ok?'Perfil confirmado':'Confirmar perfil'}</button></div>`}
+  </section>`;
+}
+function formulaCard(){
+  const f=state.form;
+  const opts=allP().filter(p=>p.d&&!blocks(p).length&&!state.rows.some(r=>r.id===p.id));
+  return `<section class="card"><h2 class="t">3 · Fórmula</h2>
+   ${state.msg?`<div class="info">${esc(state.msg)}</div>`:''}
+   <div class="seg" role="group" aria-label="Forma">
+    ${[['inf','Chá'],['po','Pó'],['pmc','PMC'],['cp','Comprimido']].map(([k,l])=>`<button data-a="form" data-v="${k}" aria-pressed="${f===k}">${l}</button>`).join('')}
+   </div>
+   <div class="grid2" style="margin:10px 0">
+    <div class="f">Tomas por dia<div class="step"><button data-a="tomas" data-v="-1" aria-label="Menos tomas">−</button><b id="tomas">${state.tomas}</b><button data-a="tomas" data-v="1" aria-label="Mais tomas">+</button></div></div>
+    <div class="f">Dias do lote<div class="step"><button data-a="dias" data-v="-1" aria-label="Menos dias">−</button><b id="dias">${state.dias}</b><button data-a="dias" data-v="1" aria-label="Mais dias">+</button></div></div>
+   </div>
+   <div id="rows">${state.rows.map(rowHTML).join('')}</div>
+   <label class="f">Adicionar planta<select data-i="addp"><option value="">Escolher…</option>${AREAS.map((a,i)=>{const o=opts.filter(p=>p.ar.includes(i));return o.length?`<optgroup label="${esc(a)}">${o.map(p=>`<option value="${p.id}">${esc(p.n)}</option>`).join('')}</optgroup>`:''}).join('')}</select></label>
+  </section>
+  <section class="card" id="res"></section>`;
+}
+function rowHTML(r){
+  const p=getP(r.id),b=blocks(p);
+  if(b.length) return `<div class="row" id="row-${r.id}"><div class="rh"><div class="nm"><b>${esc(p.n)}</b><i>${esc(p.l)}</i></div><button class="ico" data-a="rm" data-v="${r.id}" aria-label="Remover ${esc(p.n)}">✕</button></div><div class="lock">Bloqueada: ${esc(b.join('; '))}.</div></div>`;
+  const c=capOf(p),z=zoneOf(p,r.dose),w=warns(p);
+  return `<div class="row z-${z}" id="row-${r.id}" data-id="${r.id}">
+   <div class="rh"><select class="role" data-i="role" data-id="${r.id}" aria-label="Papel de ${esc(p.n)}">${Object.keys(ROLES).map(k=>`<option value="${k}" ${r.role===k?'selected':''}>${ROLES[k]}</option>`).join('')}</select>
+    <div class="nm"><b>${esc(p.n)}</b><i>${esc(p.l)}</i></div>
+    <button class="ico" data-a="info" data-v="${r.id}" aria-label="Justificação de ${esc(p.n)}">i</button>
+    <button class="ico" data-a="rm" data-v="${r.id}" aria-label="Remover ${esc(p.n)}">✕</button></div>
+   <div class="sl"><button class="pm" data-a="dec" data-v="${r.id}" aria-label="Diminuir">−</button>
+    <input type="range" class="rg" data-i="dose" data-id="${r.id}" min="0" max="${c}" step="${stepOf(p)}" value="${r.dose}" style="--track:${trackOf(p)}" aria-label="Dose diária de ${esc(p.n)} em gramas">
+    <button class="pm" data-a="inc" data-v="${r.id}" aria-label="Aumentar" ${r.dose>=c-1e-9?'disabled':''}>+</button></div>
+   <div class="rs"><span class="val">${fmt(r.dose)} g/dia</span><span class="zone">${zoneTxt[z]}</span></div>
+   <div class="lim">mín. ${fmt(p.d[0])} g · máx. ${fmt(c)} g${state.prof.frail?' (reduzido)':''} · ${esc(SRC[p.src])}</div>
+   ${w.length?`<div class="info">${esc(w.join('; '))}.</div>`:''}
+   <div class="box just" id="why-${r.id}" hidden><b>Porquê estes limites.</b> ${esc(p.why)} <br><b>Contraindicações:</b> ${esc(p.ct||'—')} <br><b>Interações:</b> ${esc(p.it||'—')}${p.fonte?'<br><b>Fonte:</b> '+esc(p.fonte):''}</div>
+  </div>`;
+}
+function updateRow(id){
+  const r=state.rows.find(x=>x.id===id),p=getP(id),el=$('#row-'+id);if(!r||!el)return;
+  const c=capOf(p),z=zoneOf(p,r.dose);
+  el.className='row z-'+z;$('.val',el).textContent=fmt(r.dose)+' g/dia';$('.zone',el).textContent=zoneTxt[z];
+  $('input.rg',el).value=r.dose;$('[data-a=inc]',el).disabled=r.dose>=c-1e-9;$('[data-a=dec]',el).disabled=r.dose<=0;
+  updateResults();
+}
+function calc(){
+  const F=state.form,out=[];let tot=0,totRaw=0;
+  const wt=state.tabW*state.frac/100;
+  activeRows().forEach(r=>{
+    const p=getP(r.id);let v=null,unit='g';
+    if(F==='inf'&&(has(p,'i')||has(p,'d'))) v=r.dose;
+    else if(F==='po'&&has(p,'p')) v=r.dose;
+    else if(F==='pmc'&&has(p,'m')) v=r.dose/state.ratio;
+    else if(F==='cp'){ if(has(p,'m')) {v=r.dose/state.ratio/wt;unit='cp'} else if(has(p,'p')){v=r.dose/wt;unit='cp'} }
+    out.push({p,raw:r.dose,v,unit});if(v!=null)tot+=v;totRaw+=r.dose;
+  });
+  return {out,tot,totRaw};
+}
+function updateResults(){
+  const el=$('#res');if(!el)return;
+  const {out,tot,totRaw}=calc(),F=state.form,d=state.dias,t=state.tomas;
+  if(!out.length){el.innerHTML='<h2 class="t">4 · Resultado</h2><p class="just">Adiciona ou ajusta plantas para ver o resultado.</p>';return}
+  const u=F==='cp'?'cp':'g';
+  const rows=out.map(o=>`<tr><td>${esc(o.p.n)}</td><td>${fmt(o.raw)}</td><td>${o.v==null?'<span class="muted">não se aplica</span>':fmt(o.v)+' '+u}</td><td>${o.v==null?'—':fmt(o.v*d)+' '+u}</td></tr>`).join('');
+  const na=out.filter(o=>o.v==null).map(o=>o.p.n);
+  const ha=activeRows();
+  const grp={};ha.forEach(r=>(getP(r.id).tg||[]).forEach(g=>(grp[g]=grp[g]||[]).push(getP(r.id).n)));
+  const GM={sed:'Somam efeito sedativo',antiplat:'Somam efeito antiagregante',diur:'Somam efeito diurético',muc:'Mucilagens: tomar 1 hora afastadas de outros medicamentos e com muita água'};
+  const al=Object.keys(grp).filter(g=>(g==='muc'?grp[g].length>=1:grp[g].length>=2)).map(g=>`<div class="info"><b>${GM[g]}:</b> ${esc(grp[g].join(', '))}.${g==='sed'?' Reduz cada dose e evita conduzir.':''}</div>`).join('');
+  /* papéis */
+  let pap='';const ch=state.rows.filter(r=>r.role==='C'&&activeRows().includes(r));
+  if(!ch.length) pap='<div class="info">Falta um Chefe (君): a planta principal da fórmula.</div>';
+  else{const rel=r=>r.dose/getP(r.id).d[1];const mx=Math.max(...ha.map(rel));if(rel(ch[0])<mx-0.25) pap='<div class="info">O Chefe (君) devia ter o maior peso relativo. Revê as doses ou os papéis.</div>'}
+  /* MTC */
+  const tc=ha.filter(r=>getP(r.id).tcm);let g='';
+  if(tc.length){const s=tc.reduce((a,r)=>a+NAT[getP(r.id).tcm.n][0]*r.dose,0)/tc.reduce((a,r)=>a+r.dose,0);
+   const pos=(s+2)/4*100,pr=state.prof.tend,msg=(pr==='calor'&&s>0.4)?'A fórmula tende a quente e a tendência indicada é de calor: reduz as plantas mornas ou junta frescas.':(pr==='frio'&&s<-0.4)?'A fórmula tende a fria e a tendência indicada é de frio: reduz as plantas frias.':'Equilíbrio térmico compatível com a tendência indicada.';
+   const fl={};tc.forEach(r=>getP(r.id).tcm.s.forEach(x=>fl[x]=(fl[x]||0)+r.dose));
+   const mer={};tc.forEach(r=>getP(r.id).tcm.m.forEach(x=>mer[x]=(mer[x]||0)+r.dose));
+   g=`<h3 class="s">Balanço em MTC (${tc.length} de ${ha.length} plantas classificadas)</h3><div class="gauge"><i style="left:${pos}%"></i></div><div class="gl"><span>frio 寒</span><span>neutro 平</span><span>quente 热</span></div><p class="just">${msg}</p>
+   <div class="tags">${Object.entries(fl).sort((a,b)=>b[1]-a[1]).map(([k])=>`<span class="tg">${k} ${FL[k]}</span>`).join('')}</div>
+   <div class="tags">${Object.entries(mer).sort((a,b)=>b[1]-a[1]).map(([k])=>`<span class="tg">${k}</span>`).join('')}</div>`}
+  /* ligações */
+  const ids=ha.map(r=>r.id);const lk=state.links.filter(l=>ids.includes(l.a)&&ids.includes(l.b)).map(l=>`<div class="${['xe','xf','ct'].includes(l.t)?'info':'box just'}"><b>${esc(getP(l.a).n)} + ${esc(getP(l.b).n)}</b> · ${LT[l.t]}<br>${esc(l.n)}${l.fonte?' ('+esc(l.fonte)+')':''}</div>`).join('');
+  const perToma=tot/t;
+  el.innerHTML=`<h2 class="t">4 · Resultado</h2>
+   <table><thead><tr><th>Planta</th><th>g/dia crua</th><th>${F==='cp'?'Comprimidos/dia':'Por dia'}</th><th>Lote ${d} d</th></tr></thead><tbody>${rows}</tbody>
+   <tfoot><tr><td>Total</td><td>${fmt(totRaw)}</td><td>${fmt(tot)} ${u}</td><td>${fmt(tot*d)} ${u}</td></tr></tfoot></table>
+   <p class="just" style="margin-top:8px">${t} tomas por dia: <b>${fmt(perToma)} ${u==='cp'?'comprimidos':'g'}</b> por toma.${F==='pmc'?` Razão do PMC ${fmt(state.ratio)}:1 (1 g de PMC ≈ ${fmt(state.ratio)} g de erva crua).`:''}</p>
+   ${na.length?`<div class="info">Sem esta forma: ${esc(na.join(', '))}. ${F==='pmc'||F==='cp'?'Aromáticas perdem óleos voláteis no PMC e mucilagens formam gel.':''}</div>`:''}
+   ${al}${pap}${lk}${g}
+   <div class="grid2" style="margin-top:12px"><button class="btn sec" data-a="copy">Copiar resumo</button><button class="btn" data-a="goprep">Preparar lote</button></div>`;
+}
+function summaryText(){
+  const n=NEEDS.find(x=>x.id===state.need),{out,tot}=calc();
+  return `Fórmula: ${n?n.n:'—'}\nForma: ${state.form}; ${state.tomas} tomas/dia; lote de ${state.dias} dias\n`+out.map(o=>`- ${o.p.n}: ${fmt(o.raw)} g/dia crua`+(o.v!=null?` (${fmt(o.v)} ${o.unit==='cp'?'cp':'g'}/dia na forma)`:'')).join('\n')+`\nTotal na forma: ${fmt(tot)}/dia`;
+}
+
+/* ============================== PREPARAR ============================== */
+function tabPrep(){
+  const {out}=calc();const lot=out.reduce((a,o)=>a+o.raw,0)*state.dias;
+  const herb=state.prep.herb==null?(lot||100):state.prep.herb;
+  const y=state.prep.yield/100,ratio=y>0?1/y:0;
+  const w1=herb*10,w2=herb*8,dry=herb*y,soft=dry/0.7,tabs=dry/(state.tabW*state.frac/100);
+  const act=activeRows().map(r=>getP(r.id));
+  const grp=m=>act.filter(p=>p.mode===m).map(p=>p.n).join(', ')||'—';
+  const pz=act.filter(p=>p.pz).map(p=>p.n+' ('+PZ[p.pz]+')').join('; ')||'—';
+  const st=[
+   ['Do chá ao comprimido',`<div class="states">
+     ${[['Chá','≈ 98%',98],['Xarope','≈ 70%',70],['Pasta','20–30%',25],['Pó (PMC)','< 5%',4],['Comprimido','< 5%',4]].map(([a,b,c])=>`<div><b>${a}</b>água ${b}<div class="wbar"><i style="width:${c}%"></i></div></div>`).join('')}</div>
+     <p class="just" style="margin-top:8px">O chá é água com 1 a 3% de sólidos dissolvidos: açúcares, mucilagens, saponinas, taninos e outros compostos solúveis. Ao evaporar a água, os sólidos ficam e concentram-se. Como as gomas e mucilagens engrossam o líquido, ele passa a xarope, depois a pasta (extrato mole) e, seco, a vidro quebradiço que se mói em pó. É essa a essência: a erva sem a fibra.</p>
+     <p class="just">O pó é higroscópico e não se prende sozinho. Para virar comprimido duro, junta-se um ligante, granula-se, seca-se e prensa-se (passos 10 e 11).</p>`],
+   ['1 · Preparar a matéria-prima (炮制 páozhì)',`<p class="just">Pesar a erva seca. Preparações da fórmula atual: ${esc(pz)}. Sementes duras partem-se para largarem os princípios; as gordas moem-se só no fim.</p>`],
+   ['2 · Molho (浸泡 jìnpào)',`<p class="just">Cobrir com água fria, 30 minutos (raízes, cascas e sementes até 60). A erva absorve água e abre-se, e a extração é mais completa e mais suave.</p>`],
+   ['3 · 1.ª decocção (头煎 tóujiān)',`<p class="just">Água: <b>${fmt(w1)} ml</b> (10 ml por g). Lume forte até ferver e depois brando (文火 wénhuǒ), tapado, cerca de 25 minutos. 先煎 (cozer primeiro, mais 15 a 30 min): ${esc(grp('pre'))}. 后下 (juntar nos últimos 5 a 10 min): ${esc(grp('post'))}. 包煎 (saquinho): ${esc(grp('bag'))}.</p>`],
+   ['4 · Coar',`<p class="just">Coar por pano de algodão ou musselina e espremer o bagaço. Guardar o líquido num jarro de vidro.</p>`],
+   ['5 · 2.ª decocção (二煎 èrjiān)',`<p class="just">Voltar a cozer o bagaço com <b>${fmt(w2)} ml</b> de água durante 20 minutos e coar. Junta-se à 1.ª: a primeira água satura-se e não leva tudo. Trabalhar em lote, sem guardar o líquido mais de 24 a 48 horas no frio.</p>`],
+   ['6 · Concentrar até à pasta',`<p class="just">Lume mínimo, tacho largo e aberto, sem ferver com força (acima de cerca de 90 °C degrada). Mexer com colher de madeira. Quando restar pouco, passar a banho-maria. Ponto: escorre devagar como mel espesso e a colher deixa sulco. Massa final esperada: cerca de <b>${fmt(soft)} g</b> de pasta.</p>`],
+   ['7 · Secar',`<p class="just">Espalhar a pasta em camada de 2 a 3 mm sobre silicone ou papel vegetal, em desidratador a 45 a 55 °C durante 8 a 16 horas, até quebrar como vidro. Se ainda vergar, não está seco.</p>`],
+   ['8 · Moer, peneirar e pesar',`<p class="just">Moer, peneirar e pesar o pó. Rendimento esperado de <b>${fmt(dry)} g</b> (${state.prep.yield}%). Se juntares 10 a 20% de farinha de arroz para não empedrar, anota-o. <b>A razão real é o teu peso de erva a dividir pelo peso de pó: 1 g de PMC vale ${fmt(ratio)} g de erva.</b></p>`],
+   ['9 · Guardar',`<p class="just">Frasco âmbar de vidro com tampa hermética e sílica alimentar. Etiqueta: fórmula, data, lote, razão. Fora da luz e do calor.</p>`],
+   ['10 · Pílula de mel (蜜丸 mì wán)',`<p class="just">Aquecer o mel até 116 a 118 °C (中蜜) e misturar com o pó morno, na proporção de 1 parte de pó para 1 a 1,5 de mel, até formar uma massa. Enrolar bolas de peso igual e secar ao ar. Duram menos que os comprimidos.</p>`],
+   ['11 · Comprimido duro',`<p class="just">Mistura: 60 a 75% de PMC, 20 a 30% de celulose microcristalina, 3 a 5% de amido, 0,5 a 1% de estearato de magnésio. Humedecer com um pouco de água ou álcool a 60% até formar bola que se desfaz, passar por peneira de 1,4 mm, secar a 40 a 50 °C até 3 a 5% de humidade, peneirar e juntar o lubrificante. Prensar em prensa manual de comprimidos. Objetivo: <b>${fmt(tabs)}</b> comprimidos de ${fmt(state.tabW)} g (${state.frac}% de ativo) neste lote. Testes: cair de 50 cm sem partir, desagregar em água morna em menos de 30 minutos, e pesar 20 comprimidos: nenhum a mais de ±5% do peso médio (±7,5% se pesarem menos de 250 mg).</p>`]
+  ];
+  return `<section class="card"><h2 class="t">Preparar o lote</h2>
+   <div class="grid3">
+    <label class="f">Erva do lote (g)<input type="number" inputmode="decimal" min="1" step="1" data-i="herb" value="${Math.round(herb*10)/10}"></label>
+    <label class="f">Rendimento medido (%)<input type="number" inputmode="decimal" min="3" max="60" step="0.5" data-i="yield" value="${state.prep.yield}"></label>
+    <label class="f">Comprimido (g)<input type="number" inputmode="decimal" min="0.1" step="0.05" data-i="tabW" value="${state.tabW}"></label>
+   </div>
+   <p class="just" style="margin-top:8px">Razão de concentração: <b>${fmt(ratio)}:1</b>. Pesa a erva e o pó de cada lote e escreve aqui o rendimento real; o cálculo do PMC na Fórmula passa a usá-lo.</p>
+   <button class="btn sec" data-a="useratio">Usar esta razão na Fórmula</button></section>
+  <section class="card">${st.map(([t,h],i)=>`<details class="acc" ${i===0?'open':''}><summary>${esc(t)}</summary><div>${h}</div></details>`).join('')}</section>
+  <section class="card"><h2 class="t">Frascos e recipientes</h2>${VESSELS.map(v=>`<details class="acc"><summary>${esc(v[0])}</summary><div><p class="just"><b>${esc(v[1])}.</b></p><p class="just muted">${esc(v[2])}</p></div></details>`).join('')}</section>`;
+}
+
+/* ============================== PLANTAS ============================== */
+function chainHTML(p){
+  return p.pt.map(pt=>{
+    const it=[`${pt} crua`];
+    if(p.pz) it.push(PZ[p.pz].split(':')[0]);
+    it.push(`pó de ${pt}`);
+    it.push(has(p,'m')?`PMC de ${pt}`:'PMC');
+    it.push(p.psi?`PSI de ${pt}`:'PSI');
+    it.push('comprimido');
+    return `<div class="chain">${it.map((x,i)=>{const off=(x==='PMC'||x==='PSI')||(x==='comprimido'&&!has(p,'m')&&!has(p,'p'))||(x.startsWith('pó de')&&!has(p,'p')&&!has(p,'m'));return (i?'<em>→</em>':'')+`<span class="${off?'off':''}">${esc(x)}</span>`}).join('')}</div>`}).join('')+
+   (p.oil?'<p class="just muted">Oleaginosa: moer na hora e guardar no frio, no máximo 2 semanas.</p>':'')+(p.muc?'<p class="just muted">Mucilaginosa: forma gel com água. Sem PMC.</p>':'')+(has(p,'i')&&!has(p,'m')&&!p.seed&&p.d?'<p class="just muted">Aromática ou mucilaginosa: o PMC perde óleos voláteis.</p>':'');
+}
+function plantCard(p){
+  const lk=state.links.filter(l=>l.a===p.id||l.b===p.id).map(l=>{const o=getP(l.a===p.id?l.b:l.a);return `<div class="box just"><b>${esc(o?o.n:'?')}</b> · ${LT[l.t]}<br>${esc(l.n)}${l.fonte?' ('+esc(l.fonte)+')':''}</div>`}).join('');
+  const bar=p.d?`<div class="mini" style="--track:linear-gradient(90deg,var(--blue) 0 ${p.d[0]/p.d[2]*100}%,var(--green) ${p.d[0]/p.d[2]*100}% 96%,var(--red) 96% 100%)"></div><div class="lim">${fmt(p.d[0])} a ${fmt(p.d[2])} g/dia</div>`:`<div class="lim">${esc(SRC.N)}</div>`;
+  const t=p.tcm?`<div class="tags"><span class="tg">${p.tcm.n} ${NAT[p.tcm.n][1]}</span>${p.tcm.s.map(x=>`<span class="tg">${x} ${FL[x]}</span>`).join('')}${p.tcm.m.map(x=>`<span class="tg">${x}</span>`).join('')}${p.mode&&MODE[p.mode]?`<span class="tg">${MODE[p.mode][0]}</span>`:''}</div>`:'';
+  return `<details class="acc"><summary><span style="flex:1"><b>${esc(p.n)}</b> <span class="muted">${esc(p.l)}</span></span><span class="pill">${p.tr==='PT'?'Portugal':'Outras'}</span></summary><div>
+   ${bar}<p class="lim">${esc(SRC[p.src])}</p>${t}
+   <h3 class="s">Cadeia por parte</h3>${chainHTML(p)}
+   <p class="just"><b>Contraindicações:</b> ${esc(p.ct||'—')}<br><b>Interações:</b> ${esc(p.it||'—')}</p>
+   <p class="just">${esc(p.why||'')}</p>${lk?'<h3 class="s">Ligações</h3>'+lk:''}
+   <label class="f" style="margin-top:8px">A tua nota e fonte<textarea rows="3" data-i="note" data-id="${p.id}" placeholder="Conhecimento teu, com fonte">${esc(state.notes[p.id]||'')}</textarea></label>
+   ${p.d?`<details class="acc"><summary>Editar limites (com justificação)</summary><div><div class="grid3"><label class="f">Mín. g<input type="number" step="0.1" data-lim="0" data-id="${p.id}" value="${p.d[0]}"></label><label class="f">Típ. g<input type="number" step="0.1" data-lim="1" data-id="${p.id}" value="${p.d[1]}"></label><label class="f">Máx. g<input type="number" step="0.1" data-lim="2" data-id="${p.id}" value="${p.d[2]}"></label></div>
+   <label class="f">Justificação<textarea rows="2" data-lim="why" data-id="${p.id}"></textarea></label><label class="f">Fonte<input data-lim="fonte" data-id="${p.id}"></label>
+   <button class="btn sec" data-a="savelim" data-v="${p.id}" style="margin-top:8px">Guardar limites</button></div></details>`:''}
+  </div></details>`;
+}
+function listPlants(){
+  const q=state.lib.q.toLowerCase(),a=state.lib.area,pt=state.lib.part;
+  const L=allP().filter(p=>(!q||(p.n+' '+p.l).toLowerCase().includes(q))&&(a<0||p.ar.includes(a))&&(!pt||p.pt.includes(pt)));
+  return L.length?L.map(plantCard).join(''):'<p class="just">Nenhuma planta encontrada.</p>';
+}
+function tabLib(){
+  const parts=[...new Set(allP().flatMap(p=>p.pt))].sort();
+  return `<section class="card"><h2 class="t">Plantas</h2>
+   <label class="f">Procurar<input type="search" data-i="q" value="${esc(state.lib.q)}" placeholder="Nome comum ou científico"></label>
+   <div class="chips" style="margin-top:8px"><button class="chip" data-a="larea" data-v="-1" aria-pressed="${state.lib.area<0}">Todas</button>${AREAS.map((a,i)=>`<button class="chip" data-a="larea" data-v="${i}" aria-pressed="${state.lib.area===i}">${a}</button>`).join('')}</div>
+   <label class="f">Parte<select data-i="part"><option value="">Todas</option>${parts.map(x=>`<option ${state.lib.part===x?'selected':''}>${esc(x)}</option>`).join('')}</select></label>
+   <div id="plist" style="margin-top:8px">${listPlants()}</div></section>`;
+}
+
+/* ============================== BIBLIOTECA ============================== */
+function tabBib(){
+  const all=allP().slice().sort((a,b)=>a.n.localeCompare(b.n,'pt'));
+  const opt=all.map(p=>`<option value="${p.id}">${esc(p.n)}</option>`).join('');
+  return `<section class="card"><h2 class="t">Adicionar planta</h2>
+   <p class="just">Só entra com justificação e fonte. Os limites que definires ficam marcados como teus.</p>
+   <div class="grid2"><label class="f">Nome<input id="np-n"></label><label class="f">Nome científico<input id="np-l"></label>
+   <label class="f">Parte<select id="np-pt"><option>semente</option><option>raiz</option><option>folha</option><option>flor</option><option>casca</option><option>fruto</option><option>rizoma</option><option>resina</option></select></label>
+   <label class="f">Origem<select id="np-tr"><option value="PT">Portugal</option><option value="Out">Outras</option></select></label>
+   <label class="f">Área<select id="np-ar">${AREAS.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join('')}</select></label>
+   <label class="f">Cozedura<select id="np-mo"><option value="co">同煎 juntas</option><option value="pre">先煎 primeiro</option><option value="post">后下 no fim</option><option value="bag">包煎 saquinho</option></select></label></div>
+   <div class="grid3" style="margin-top:8px"><label class="f">Mín. g/dia<input id="np-a" type="number" step="0.1"></label><label class="f">Típ. g/dia<input id="np-b" type="number" step="0.1"></label><label class="f">Máx. g/dia<input id="np-c" type="number" step="0.1"></label></div>
+   <label class="f">Justificação dos limites<textarea id="np-w" rows="2"></textarea></label>
+   <label class="f">Fonte<input id="np-s"></label>
+   <label class="ck"><input type="checkbox" id="np-f1" checked><span>Faz chá ou decocção</span></label><label class="ck"><input type="checkbox" id="np-f2" checked><span>Faz pó</span></label><label class="ck"><input type="checkbox" id="np-f3"><span>Faz PMC</span></label>
+   <button class="btn" data-a="addp">Guardar planta</button></section>
+  <section class="card"><h2 class="t">Ligar conhecimento</h2>
+   <div class="grid2"><label class="f">Planta A<select id="lk-a">${opt}</select></label><label class="f">Planta B<select id="lk-b">${opt}</select></label></div>
+   <label class="f">Tipo<select id="lk-t">${Object.keys(LT).map(k=>`<option value="${k}">${esc(LT[k])}</option>`).join('')}</select></label>
+   <label class="f">Nota<textarea id="lk-n" rows="2"></textarea></label><label class="f">Fonte<input id="lk-f"></label>
+   <button class="btn" data-a="addlink">Guardar ligação</button></section>
+  <section class="card"><h2 class="t">Guardar e carregar</h2>
+   <p class="just">Este ficheiro não guarda dados sozinho. Descarrega o teu conhecimento e volta a carregá-lo quando quiseres.</p>
+   <div class="grid2"><button class="btn" data-a="export">Descarregar</button><label class="btn sec" style="display:flex;align-items:center;justify-content:center;text-align:center">Carregar<input type="file" accept="application/json" data-i="import" hidden></label></div></section>`;
+}
+
+/* ============================== RENDER E EVENTOS ============================== */
+function render(){
+  const a=$('#app');
+  a.innerHTML=state.tab==='f'?tabF():state.tab==='p'?tabPrep():state.tab==='l'?tabLib():tabBib();
+  $$('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===state.tab));
+  if(state.tab==='f') updateResults();
+}
+function tabF(){
+  const needs=NEEDS.filter(n=>n.ar===state.area),nd=NEEDS.find(n=>n.id===state.need);
+  return `<section class="card"><h2 class="t">1 · Necessidade</h2>
+   <p class="just muted">Sintomas ligeiros e passageiros. Para doença, dor forte ou deformação visível, procura um médico.</p>
+   <div class="chips">${AREAS.map((a,i)=>`<button class="chip" data-a="area" data-v="${i}" aria-pressed="${state.area===i}">${a}</button>`).join('')}</div>
+   <div class="needs">${needs.map(n=>`<button class="need" data-a="need" data-v="${n.id}" aria-pressed="${state.need===n.id}"><b>${n.n}</b><span>${n.s}</span></button>`).join('')}</div>
+   ${nd&&nd.ar===state.area?`<p class="just box" style="margin-top:8px">${esc(nd.why)}</p>`:''}</section>
+  ${safetyCard()}
+  ${state.need&&state.ok&&!alarmOn()?formulaCard():(state.need&&!alarmOn()?'<div class="info">Confirma o teu perfil para ver a fórmula.</div>':'')}`;
+}
+const act={
+ area:b=>{state.area=+b.dataset.v;render()},
+ need:b=>{loadNeed(b.dataset.v);render()},
+ ok:()=>{state.ok=true;render();toast('Perfil confirmado')},
+ form:b=>{state.form=b.dataset.v;render()},
+ tomas:b=>{state.tomas=Math.min(4,Math.max(1,state.tomas+ +b.dataset.v));$('#tomas').textContent=state.tomas;updateResults()},
+ dias:b=>{state.dias=Math.min(30,Math.max(1,state.dias+ +b.dataset.v));$('#dias').textContent=state.dias;updateResults()},
+ rm:b=>{state.rows=state.rows.filter(r=>r.id!==b.dataset.v);render()},
+ info:b=>{const e=$('#why-'+b.dataset.v);if(e)e.hidden=!e.hidden},
+ dec:b=>nudge(b.dataset.v,-1),inc:b=>nudge(b.dataset.v,1),
+ copy:()=>{const t=summaryText();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Resumo copiado'),()=>toast('Não foi possível copiar'))},
+ goprep:()=>{state.tab='p';render();scrollTo(0,0)},
+ useratio:()=>{const y=state.prep.yield/100;if(y>0){state.ratio=Math.round(1/y*100)/100;toast('Razão '+fmt(state.ratio)+':1 guardada')}},
+ larea:b=>{state.lib.area=+b.dataset.v;render()},
+ savelim:b=>{
+  const id=b.dataset.v,g=k=>$(`[data-lim="${k}"][data-id="${id}"]`);
+  const d=[0,1,2].map(i=>parseFloat(g(i).value)),why=g('why').value.trim(),fonte=g('fonte').value.trim();
+  if(d.some(x=>!(x>0))||d[0]>d[1]||d[1]>d[2]) return toast('Limites inválidos: 0 < mín ≤ típ ≤ máx');
+  if(!why||!fonte) return toast('A justificação e a fonte são obrigatórias');
+  state.ov[id]={d,why,fonte};state.rows.forEach(r=>{if(r.id===id){const p=getP(id);r.dose=Math.min(Math.max(r.dose,p.d[0]),capOf(p))}});render();toast('Limites guardados como teus')},
+ addp:()=>{
+  const v=id=>$('#'+id).value.trim(),n=v('np-n'),l=v('np-l'),d=[+v('np-a'),+v('np-b'),+v('np-c')],w=v('np-w'),s=v('np-s');
+  if(!n) return toast('Falta o nome');
+  if(d.some(x=>!(x>0))||d[0]>d[1]||d[1]>d[2]) return toast('Limites inválidos: 0 < mín ≤ típ ≤ máx');
+  if(!w||!s) return toast('A justificação e a fonte são obrigatórias');
+  const f=($('#np-f1').checked?'id':'')+($('#np-f2').checked?'p':'')+($('#np-f3').checked?'m':'');
+  const id='u'+Date.now();
+  state.custom.push({id,n,l,tr:$('#np-tr').value,pt:[$('#np-pt').value],ar:[+$('#np-ar').value],d,src:'U',mode:$('#np-mo').value,f,why:w,fonte:s,ct:'Definir na tua nota.',it:'Definir na tua nota.',seed:$('#np-pt').value==='semente'?1:0});
+  render();toast('Planta guardada')},
+ addlink:()=>{const a=$('#lk-a').value,b=$('#lk-b').value,n=$('#lk-n').value.trim();
+  if(a===b) return toast('Escolhe duas plantas diferentes');
+  if(!n) return toast('Falta a nota');
+  state.links.push({a,b,t:$('#lk-t').value,n,fonte:$('#lk-f').value.trim()});render();toast('Ligação guardada')},
+ export:()=>{const j=JSON.stringify({custom:state.custom,ov:state.ov,links:state.links,notes:state.notes,ratio:state.ratio},null,1);
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([j],{type:'application/json'}));a.download='oficina-conhecimento.json';document.body.appendChild(a);a.click();a.remove();toast('Ficheiro descarregado')}
+};
+function nudge(id,dir){
+  const r=state.rows.find(x=>x.id===id),p=getP(id);if(!r)return;
+  r.dose=Math.round(Math.min(capOf(p),Math.max(0,r.dose+dir*stepOf(p)))*100)/100;updateRow(id);
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('.tabs button');if(t){state.tab=t.dataset.tab;render();scrollTo(0,0);return}
+  const b=e.target.closest('[data-a]');if(b&&act[b.dataset.a]) act[b.dataset.a](b);
+});
+document.addEventListener('input',e=>{
+  const el=e.target,i=el.dataset.i;
+  if(i==='dose'){const r=state.rows.find(x=>x.id===el.dataset.id),p=getP(el.dataset.id);r.dose=Math.min(capOf(p),+el.value);updateRow(el.dataset.id)}
+  else if(i==='q'){state.lib.q=el.value;$('#plist').innerHTML=listPlants()}
+  else if(i==='note'){state.notes[el.dataset.id]=el.value}
+});
+document.addEventListener('change',e=>{
+  const el=e.target,i=el.dataset.i,v=el.dataset.v;
+  if(!i) return;
+  const pr=state.prof,tg=(arr)=>{const k=arr.indexOf(v);k>=0?arr.splice(k,1):arr.push(v)};
+  if(i==='alarm'){tg(state.alarm);state.ok=false;render()}
+  else if(i==='age'){pr.age=el.value;state.ok=false;render()}
+  else if(i==='tend'){pr.tend=el.value;updateResults()}
+  else if(i==='frail'){pr.frail=el.checked;state.ok=false;refreshRows()}
+  else if(i==='preg'||i==='lact'){pr[i]=el.checked;state.ok=false;refreshRows()}
+  else if(['cond','al','med'].includes(i)){tg(pr[i]);state.ok=false;refreshRows()}
+  else if(i==='role'){state.rows.find(r=>r.id===el.dataset.id).role=el.value;updateResults()}
+  else if(i==='addp'&&el.value){const p=getP(el.value);state.rows.push({id:p.id,role:'A',dose:p.d[0]});render()}
+  else if(i==='part'){state.lib.part=el.value;$('#plist').innerHTML=listPlants()}
+  else if(i==='herb'){state.prep.herb=Math.max(1,+el.value||1);render()}
+  else if(i==='yield'){state.prep.yield=Math.min(60,Math.max(3,+el.value||20));render()}
+  else if(i==='tabW'){state.tabW=Math.max(0.1,+el.value||0.5);render()}
+  else if(i==='import'){const f=el.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const j=JSON.parse(rd.result);
+    state.custom=Array.isArray(j.custom)?j.custom:[];state.ov=j.ov||{};state.links=Array.isArray(j.links)?j.links:state.links;state.notes=j.notes||{};if(j.ratio>0)state.ratio=j.ratio;render();toast('Conhecimento carregado')}catch(x){toast('Ficheiro inválido')}};rd.readAsText(f)}
+});
+function refreshRows(){
+  /* reavalia bloqueios: remove linhas bloqueadas do cálculo mas mantém-nas visíveis */
+  state.rows.forEach(r=>{const p=getP(r.id);if(p&&p.d){const c=capOf(p);if(r.dose>c)r.dose=c}});
+  render();
+}
+render();
+</script>
+</body>
+</html>
